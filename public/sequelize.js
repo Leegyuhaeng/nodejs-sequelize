@@ -27,7 +27,7 @@ function  getUser() {
                 td = document.createElement('td');
                 td.textContent = user.name;
                 row.appendChild(td);
-                td.document.createElement('td');
+                td = document.createElement('td');
                 td.textContent = user.age;
                 row.appendChild(td);
                 td = document.createElement('td');
@@ -36,7 +36,7 @@ function  getUser() {
                 tbody.appendChild(row);
             });
         } else {
-            console.error(chr.responseText);
+            console.error(xhr.responseText);
         }
     };
     xhr.open('GET','/users');
@@ -44,9 +44,11 @@ function  getUser() {
 }
 //댓글로딩
 function getComment(id) {
+    console.log('getComment',id);
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if(xhr.status === 200) {
+            console.log('댓글 최신화');
             var comments = JSON.parse(xhr.responseText);
             var tbody = document.querySelector('#comment-list tbody');
             tbody.innerHTML = '';
@@ -72,7 +74,7 @@ function getComment(id) {
                     xhr.onload = function () {
                         if(xhr.status === 200) {
                             console.log(xhr.responseText);
-                            getComment(xhr.responseText);
+                            getComment(id);
                         } else {
                             console.error(xhr.responseText);
                         }
@@ -86,6 +88,7 @@ function getComment(id) {
                 remove.addEventListener('click',function () {
                     var xhr = new XMLHttpRequest();
                     xhr.onload = function () {
+                        console.log('onload');
                         if(xhr.status === 200) {
                             console.log(xhr.responseText);
                             getComment(id);
@@ -108,6 +111,7 @@ function getComment(id) {
             console.error(xhr.responseText);
         }
     };
+    console.log('GetOpen');
     xhr.open('GET','/comments/'+id);
     xhr.send();
 }
@@ -138,7 +142,7 @@ document.getElementById('user-form').addEventListener('submit',function (e) {
     xhr.send(JSON.stringify({ name:name, age:age, married: married}));
     e.target.username.value = '';
     e.target.age.value = '';
-    e.target.married.value = false;
+    e.target.married.checked = false;
 });
 // 댓글 등록시
 

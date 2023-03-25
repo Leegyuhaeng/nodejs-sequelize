@@ -7,6 +7,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   User.findAll()
       .then((users) => {
+          console.log('users===>',users);
         res.render('sequelize', { users });
       })
       .catch((err) => {
